@@ -73,3 +73,14 @@ python3 manager.py runserver
 
 manage.py startapp
 error puerto ? => python manage.py runserver 3000
+
+## Creacion de super usuario admin
+
+```bash
+python manage.py createsuperuser
+Datos que te solicitara..
+Username
+Email
+Password
+Password
+```

@@ -1,0 +1,21 @@
+
+
+{% extends 'base.html'%}
+
+{% block content %}
+
+<h1>signin</h1>
+
+{{error}}
+
+
+<form action="/signin" method="POST">
+    {% csrf_token %}
+    {{form.as_p}} 
+    <!-- as_p es para organiza el formulario-->
+    <button>
+        Signin
+    </button>
+</form>
+
+{% endblock %}
