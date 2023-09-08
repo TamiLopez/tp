@@ -73,6 +73,14 @@
         "documentation": {}
     },
     {
+        "label": "ModelForm",
+        "importPath": "django.forms",
+        "description": "django.forms",
+        "isExtraImport": true,
+        "detail": "django.forms",
+        "documentation": {}
+    },
+    {
         "label": "User",
         "importPath": "django.contrib.auth.models",
         "description": "django.contrib.auth.models",
@@ -113,6 +121,14 @@
         "documentation": {}
     },
     {
+        "label": "get_object_or_404",
+        "importPath": "django.shortcuts",
+        "description": "django.shortcuts",
+        "isExtraImport": true,
+        "detail": "django.shortcuts",
+        "documentation": {}
+    },
+    {
         "label": "UserCreationForm",
         "importPath": "django.contrib.auth.forms",
         "description": "django.contrib.auth.forms",
@@ -126,14 +142,6 @@
         "description": "django.contrib.auth.forms",
         "isExtraImport": true,
         "detail": "django.contrib.auth.forms",
-        "documentation": {}
-    },
-    {
-        "label": "HttpRequest",
-        "importPath": "django.http",
-        "description": "django.http",
-        "isExtraImport": true,
-        "detail": "django.http",
         "documentation": {}
     },
     {
@@ -158,6 +166,30 @@
         "description": "django.contrib.auth",
         "isExtraImport": true,
         "detail": "django.contrib.auth",
+        "documentation": {}
+    },
+    {
+        "label": "TIME_ZONE",
+        "importPath": "tp.settings",
+        "description": "tp.settings",
+        "isExtraImport": true,
+        "detail": "tp.settings",
+        "documentation": {}
+    },
+    {
+        "label": "timezone",
+        "importPath": "django.utils",
+        "description": "django.utils",
+        "isExtraImport": true,
+        "detail": "django.utils",
+        "documentation": {}
+    },
+    {
+        "label": "login_required",
+        "importPath": "django.contrib.auth.decorators",
+        "description": "django.contrib.auth.decorators",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.decorators",
         "documentation": {}
     },
     {
@@ -199,6 +231,14 @@
         "description": "tasks",
         "isExtraImport": true,
         "detail": "tasks",
+        "documentation": {}
+    },
+    {
+        "label": "tasks",
+        "importPath": "tasks.views",
+        "description": "tasks.views",
+        "isExtraImport": true,
+        "detail": "tasks.views",
         "documentation": {}
     },
     {
@@ -246,11 +286,20 @@
         "documentation": {}
     },
     {
+        "label": "TaskForm",
+        "kind": 6,
+        "importPath": "tasks.forms",
+        "description": "tasks.forms",
+        "peekOfCode": "class TaskForm(ModelForm):\n    class Meta:\n        model = Task # le indicamos que proviene de este Molde y lo importamos\n        fields = [\"title\", 'description', 'important']",
+        "detail": "tasks.forms",
+        "documentation": {}
+    },
+    {
         "label": "Task",
         "kind": 6,
         "importPath": "tasks.models",
         "description": "tasks.models",
-        "peekOfCode": "class Task(models.Model):\n    title = models.CharField(max_length=100) # maximo de 100 caracteres\n    descripction = models.TextField(blank=True) # textoslargos puede aceptar campos vacios\n    created = models.DateTimeField(auto_now_add=True) # si no s ele pasa datos automaticmanete puede guardar la fecha \n    datecompleted = models.DateTimeField(null=True) # sera un campo vacio inicialmente , fecha que se realizo la tarea\n    important = models.BooleanField(default=False) # Campo importante por defecto sera Falso ,el usuario puede marcarla importante \n    user = models.ForeignKey(User, on_delete=models.CASCADE) # CASCADE si borra un campo borra todo. \n    def __str__(self):\n        return self.title + '- by' + self.user.username #Para que retorna su propio titulotitulo\n    # se debe ejecutar, Python mange.py makemigrations ",
+        "peekOfCode": "class Task(models.Model):\n    title = models.CharField(max_length=100) # maximo de 100 caracteres\n    descripction = models.TextField(blank=True) # textoslargos puede aceptar campos vacios\n    created = models.DateTimeField(auto_now_add=True) # si no s ele pasa datos automaticmanete puede guardar la fecha \n    datecompleted = models.DateTimeField(null=True, blank=True ) # sera un campo vacio inicialmente , fecha que se realizo la tarea\n    important = models.BooleanField(default=False) # Campo importante por defecto sera Falso ,el usuario puede marcarla importante \n    user = models.ForeignKey(User, on_delete=models.CASCADE) # CASCADE si borra un campo borra todo. \n    def __str__(self):\n        return self.title + '- by' + self.user.username #Para que retorna su propio titulotitulo\n    # se debe ejecutar, Python mange.py makemigrations ",
         "detail": "tasks.models",
         "documentation": {}
     },
@@ -277,7 +326,7 @@
         "kind": 2,
         "importPath": "tasks.views",
         "description": "tasks.views",
-        "peekOfCode": "def tasks(request):\n    return render(request, 'tasks.html')\ndef signout(request):\n    logout(request)\n    return redirect('home')\ndef signin(request):\n    if request.method == 'GET':\n        return render(request, 'signin.html',{\n        'form': AuthenticationForm          \n    })",
+        "peekOfCode": "def tasks(request):\n    tasks = Task.objects.filter(user=request.user, datecompleted_isnull=True)\n    return render(request, 'tasks.html', {\n        'tasks': tasks\n    })\n@login_required \ndef signout(request):\n    logout(request)\n    return redirect('home')\ndef signin(request):",
         "detail": "tasks.views",
         "documentation": {}
     },
@@ -296,6 +345,51 @@
         "importPath": "tasks.views",
         "description": "tasks.views",
         "peekOfCode": "def signin(request):\n    if request.method == 'GET':\n        return render(request, 'signin.html',{\n        'form': AuthenticationForm          \n    })\n    else:\n        user = authenticate(\n            request, username=request.POST['usename'], pasword=request.POST\n            ['password'])\n        if user is None:",
+        "detail": "tasks.views",
+        "documentation": {}
+    },
+    {
+        "label": "create_task",
+        "kind": 2,
+        "importPath": "tasks.views",
+        "description": "tasks.views",
+        "peekOfCode": "def create_task(request):\n    if request.method == 'GET':\n        return render(request, 'create_task.html',{\n        'form': TaskForm\n    })\n    else:\n        try:\n            form = TaskForm(request.POST)\n            new_task = form.save(commit=False)\n            new_task.user = request.user ",
+        "detail": "tasks.views",
+        "documentation": {}
+    },
+    {
+        "label": "task_detail",
+        "kind": 2,
+        "importPath": "tasks.views",
+        "description": "tasks.views",
+        "peekOfCode": "def task_detail(request, task_id):\n    if request.method == 'GET':\n        task = get_object_or_404(Task, pk=task_id)\n        form = TaskForm(instance=task) # Para Actualizar la Tareas\n        return render(request, 'task_detail.html', {'task': task, 'form': form})\n    else:\n        try:\n            task = get_object_or_404(Task, pk=task_id, user=request.user)\n            form = TaskForm(request.POST, instance=Task)\n            form.save()",
+        "detail": "tasks.views",
+        "documentation": {}
+    },
+    {
+        "label": "complete_task",
+        "kind": 2,
+        "importPath": "tasks.views",
+        "description": "tasks.views",
+        "peekOfCode": "def complete_task(request, task_id):\n    task = get_object_or_404(Task, pk=task_id, user=request.user)\n    if request.method == 'POST':\n        task.datacompleted = timezone.now\n        task.save()\n        return redirect('tasks')\n@login_required \ndef complete_task(request, task_id):\n    task = get_object_or_404(Task, pk=task_id, user=request.user)\n    if request.method == 'POST':",
+        "detail": "tasks.views",
+        "documentation": {}
+    },
+    {
+        "label": "complete_task",
+        "kind": 2,
+        "importPath": "tasks.views",
+        "description": "tasks.views",
+        "peekOfCode": "def complete_task(request, task_id):\n    task = get_object_or_404(Task, pk=task_id, user=request.user)\n    if request.method == 'POST':\n        task.delete()\n        return redirect('tasks')\n@login_required   \ndef tasks_completed(request):\n    tasks = Task.objects.filter(user=request.user, datecompleted_isnull=True)\n    ('-datecompleted') \n    return render(request, 'tasks.html', {'tasks': tasks})",
+        "detail": "tasks.views",
+        "documentation": {}
+    },
+    {
+        "label": "tasks_completed",
+        "kind": 2,
+        "importPath": "tasks.views",
+        "description": "tasks.views",
+        "peekOfCode": "def tasks_completed(request):\n    tasks = Task.objects.filter(user=request.user, datecompleted_isnull=True)\n    ('-datecompleted') \n    return render(request, 'tasks.html', {'tasks': tasks})",
         "detail": "tasks.views",
         "documentation": {}
     },
@@ -412,7 +506,7 @@
         "kind": 5,
         "importPath": "tp.settings",
         "description": "tp.settings",
-        "peekOfCode": "LANGUAGE_CODE = 'en-us'\nTIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/4.0/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "peekOfCode": "LANGUAGE_CODE = 'en-us'\nTIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/4.0/howto/static-files/\nSTATIC_URL = 'static/'\nLOGIN_URL = '/signin'\n# Default primary key field type\n# https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field",
         "detail": "tp.settings",
         "documentation": {}
     },
@@ -421,7 +515,7 @@
         "kind": 5,
         "importPath": "tp.settings",
         "description": "tp.settings",
-        "peekOfCode": "TIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/4.0/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "peekOfCode": "TIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/4.0/howto/static-files/\nSTATIC_URL = 'static/'\nLOGIN_URL = '/signin'\n# Default primary key field type\n# https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
         "detail": "tp.settings",
         "documentation": {}
     },
@@ -430,7 +524,7 @@
         "kind": 5,
         "importPath": "tp.settings",
         "description": "tp.settings",
-        "peekOfCode": "USE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/4.0/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "peekOfCode": "USE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/4.0/howto/static-files/\nSTATIC_URL = 'static/'\nLOGIN_URL = '/signin'\n# Default primary key field type\n# https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
         "detail": "tp.settings",
         "documentation": {}
     },
@@ -439,7 +533,7 @@
         "kind": 5,
         "importPath": "tp.settings",
         "description": "tp.settings",
-        "peekOfCode": "USE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/4.0/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "peekOfCode": "USE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/4.0/howto/static-files/\nSTATIC_URL = 'static/'\nLOGIN_URL = '/signin'\n# Default primary key field type\n# https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
         "detail": "tp.settings",
         "documentation": {}
     },
@@ -448,7 +542,16 @@
         "kind": 5,
         "importPath": "tp.settings",
         "description": "tp.settings",
-        "peekOfCode": "STATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "peekOfCode": "STATIC_URL = 'static/'\nLOGIN_URL = '/signin'\n# Default primary key field type\n# https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "detail": "tp.settings",
+        "documentation": {}
+    },
+    {
+        "label": "LOGIN_URL",
+        "kind": 5,
+        "importPath": "tp.settings",
+        "description": "tp.settings",
+        "peekOfCode": "LOGIN_URL = '/signin'\n# Default primary key field type\n# https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
         "detail": "tp.settings",
         "documentation": {}
     },
@@ -466,7 +569,7 @@
         "kind": 5,
         "importPath": "tp.urls",
         "description": "tp.urls",
-        "peekOfCode": "urlpatterns = [\n    path('admin/', admin.site.urls),\n    path('', views.home, name='home'),\n    path('signup/', views.signup, name='signup'),\n    path('tasks/', views.tasks, name='tasks'),\n    path('logout/', views.signout, name='logout'),\n    path('signin/', views.signin, name='signin')\n]",
+        "peekOfCode": "urlpatterns = [\n    path('admin/', admin.site.urls),\n    path('', views.home, name='home'),\n    path('signup/', views.signup, name='signup'),\n    path('tasks/', views.tasks, name='tasks'),\n    path('logout/', views.signout, name='logout'),\n    path('signin/', views.signin, name='signin'),\n    path('tasks_completed', views.tasks_completed, name='task_completed'),\n    path('tasks/create', views.create_task, name='create_task'),\n    path('tasks/<int:task_id>', views.task_detail, name='task_detail'),",
         "detail": "tp.urls",
         "documentation": {}
     },

@@ -7,7 +7,7 @@ class Task(models.Model):
     title = models.CharField(max_length=100) # maximo de 100 caracteres
     descripction = models.TextField(blank=True) # textoslargos puede aceptar campos vacios
     created = models.DateTimeField(auto_now_add=True) # si no s ele pasa datos automaticmanete puede guardar la fecha 
-    datecompleted = models.DateTimeField(null=True) # sera un campo vacio inicialmente , fecha que se realizo la tarea
+    datecompleted = models.DateTimeField(null=True, blank=True ) # sera un campo vacio inicialmente , fecha que se realizo la tarea
     important = models.BooleanField(default=False) # Campo importante por defecto sera Falso ,el usuario puede marcarla importante 
     user = models.ForeignKey(User, on_delete=models.CASCADE) # CASCADE si borra un campo borra todo. 
     
