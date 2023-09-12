@@ -7,6 +7,7 @@ Python 3.10
 
 orlandodemontero.pythonanywhere.com
 Hola como estas ? 
+todo bien! espero vos tambien estes bien!
 
 ```bash
 Creacion de un Entorno Virtual
