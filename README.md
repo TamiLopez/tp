@@ -6,7 +6,8 @@ Django 4.0.6
 Python 3.10
 
 orlandodemontero.pythonanywhere.com
-ppppllllll
+Hola como estas ? 
+
 ```bash
 Creacion de un Entorno Virtual
 
