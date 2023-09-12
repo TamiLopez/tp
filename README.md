@@ -19,6 +19,19 @@ En Windows
 > mkdir myproject
 > cd myproject
 > py -3 -m venv .venv
+
+si estas usando PowerShell Usar :
+
+.\Scripts\Activate.ps1
+
+si usas cmd :
+
+Scripts\activate
+
+si usas bash :
+
+source Scripts/activate
+
 NOTA: para desactivar el entorno escribir : deactivate
 Como sabes que esta activado el entorno Virtual ? en la consola debe mostrarse .venv
 ```
